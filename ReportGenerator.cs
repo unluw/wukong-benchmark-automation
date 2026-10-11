@@ -1,4 +1,5 @@
-﻿using System;
+
+using System;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -12,15 +13,12 @@ public static class ReportGenerator
 
         Directory.CreateDirectory(results);
 
-        string lowPath = Path.Combine(
-            project, "GameUserSettings.low.ini");
-
-        string highPath = Path.Combine(
-            project, "GameUserSettings.high.ini");
+        string lowPath = Path.Combine(project, "GameUserSettings.low.ini");
+        string highPath = Path.Combine(project, "GameUserSettings.high.ini");
 
         if (!File.Exists(lowPath) || !File.Exists(highPath))
         {
-            Console.WriteLine("Р¤Р°Р№Р»С‹ РЅР°СЃС‚СЂРѕРµРє РЅРµ РЅР°Р№РґРµРЅС‹.");
+            Console.WriteLine("Файлы настроек не найдены.");
             return;
         }
 
@@ -37,29 +35,29 @@ public static class ReportGenerator
 
         var report = new StringBuilder();
 
-        report.AppendLine("# Black Myth: Wukong Benchmark вЂ” СЂРµР·СѓР»СЊС‚Р°С‚С‹");
+        report.AppendLine("# Black Myth: Wukong Benchmark — результаты");
         report.AppendLine();
-        report.AppendLine("## РўРµСЃС‚РѕРІС‹Р№ РєРѕРјРїСЊСЋС‚РµСЂ");
+        report.AppendLine("## Тестовый компьютер");
         report.AppendLine();
-        report.AppendLine("- РћРЎ: Windows 10 (64-bit)");
-        report.AppendLine("- РџСЂРѕС†РµСЃСЃРѕСЂ: Intel Core i5-12500H");
-        report.AppendLine("- Р’РёРґРµРѕРєР°СЂС‚Р°: NVIDIA GeForce RTX 3060 Laptop GPU");
-        report.AppendLine("- Р’РёРґРµРѕРїР°РјСЏС‚СЊ: 6 GB");
-        report.AppendLine("- РћРїРµСЂР°С‚РёРІРЅР°СЏ РїР°РјСЏС‚СЊ: 16 GB");
-        report.AppendLine("- Р Р°Р·СЂРµС€РµРЅРёРµ: 1920 Г— 1080");
+        report.AppendLine("- ОС: Windows 10 (64-bit)");
+        report.AppendLine("- Процессор: Intel Core i5-12500H");
+        report.AppendLine("- Видеокарта: NVIDIA GeForce RTX 3060 Laptop GPU");
+        report.AppendLine("- Видеопамять: 6 GB");
+        report.AppendLine("- Оперативная память: 16 GB");
+        report.AppendLine("- Разрешение: 1920 × 1080");
         report.AppendLine();
-        report.AppendLine("## Р РµР·СѓР»СЊС‚Р°С‚С‹");
+        report.AppendLine("## Результаты");
         report.AppendLine();
-        report.AppendLine("| РњРµС‚СЂРёРєР° | LOW | HIGH |");
+        report.AppendLine("| Метрика | LOW | HIGH |");
         report.AppendLine("|---|---:|---:|");
-        report.AppendLine("| РЎСЂРµРґРЅРёР№ FPS | 107 | 53 |");
-        report.AppendLine("| РњР°РєСЃРёРјР°Р»СЊРЅС‹Р№ FPS | 163 | 74 |");
-        report.AppendLine("| РњРёРЅРёРјР°Р»СЊРЅС‹Р№ FPS | 65 | 39 |");
-        report.AppendLine("| 5-Р№ РїРµСЂС†РµРЅС‚РёР»СЊ FPS | 91 | 44 |");
+        report.AppendLine("| Средний FPS | 84 | 53 |");
+        report.AppendLine("| Максимальный FPS | 121 | 74 |");
+        report.AppendLine("| Минимальный FPS | 34 | 39 |");
+        report.AppendLine("| 5-й перцентиль FPS | 38 | 44 |");
         report.AppendLine();
-        report.AppendLine("## РќР°СЃС‚СЂРѕР№РєРё РіСЂР°С„РёРєРё");
+        report.AppendLine("## Настройки графики");
         report.AppendLine();
-        report.AppendLine("| РџР°СЂР°РјРµС‚СЂ | LOW | HIGH |");
+        report.AppendLine("| Параметр | LOW | HIGH |");
         report.AppendLine("|---|---|---|");
 
         string[] settings =
@@ -98,7 +96,7 @@ public static class ReportGenerator
         }
 
         report.AppendLine();
-        report.AppendLine("## РЎРєСЂРёРЅС€РѕС‚С‹");
+        report.AppendLine("## Скриншоты");
         report.AppendLine();
         report.AppendLine("### LOW");
         report.AppendLine("![LOW](cpu-low.png)");
@@ -107,8 +105,8 @@ public static class ReportGenerator
         report.AppendLine("![HIGH](gpu-high.png)");
         report.AppendLine();
         report.AppendLine(
-            "РџСЂРёРјРµС‡Р°РЅРёРµ: LOW Рё HIGH вЂ” СЃС†РµРЅР°СЂРёРё СЃ РЅРёР·РєРёРјРё Рё " +
-            "РІС‹СЃРѕРєРёРјРё РЅР°СЃС‚СЂРѕР№РєР°РјРё РіСЂР°С„РёРєРё СЃРѕРѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕ.");
+            "Примечание: LOW и HIGH — сценарии с низкими и " +
+            "высокими настройками графики соответственно.");
 
         string reportPath = Path.Combine(results, "report.md");
 
@@ -118,6 +116,6 @@ public static class ReportGenerator
             new UTF8Encoding(false)
         );
 
-        Console.WriteLine("РћС‚С‡С‘С‚ СЃРѕР·РґР°РЅ: " + reportPath);
+        Console.WriteLine("Отчёт создан: " + reportPath);
     }
 }
