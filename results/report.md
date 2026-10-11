@@ -24,6 +24,7 @@
 
 ### LOW
 
+```ini
 [/Script/GSGameSettings.GSGameUserSettings]
 DesiredScreenWidth=640
 DesiredScreenHeight=360
@@ -84,7 +85,11 @@ r.RayTracing.EnableInGame=False
 
 [GSRenderSetting]
 GSStreamingPoolSize=384
+```
+
 ### HIGH
+
+```ini
 [/Script/GSGameSettings.GSGameUserSettings]
 DesiredScreenWidth=640
 DesiredScreenHeight=360
@@ -145,6 +150,8 @@ r.RayTracing.EnableInGame=False
 
 [GSRenderSetting]
 GSStreamingPoolSize=512
+```
+
 ## Скриншоты
 
 ### LOW
