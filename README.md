@@ -1,56 +1,120 @@
-﻿# Black Myth: Wukong Benchmark Automation
+# Автоматизация Black Myth: Wukong Benchmark Tool
 
-C# application for automating Black Myth: Wukong Benchmark Tool.
+Консольное приложение на **C# (.NET 10)** для автоматизации тестирования производительности компьютера с помощью Black Myth: Wukong Benchmark Tool.
 
-## Features
+## Описание проекта
 
-- Launches the benchmark through Steam
-- Applies LOW and HIGH graphics presets
-- Automates UI interactions using WinAPI
-- Captures benchmark screenshots
-- Extracts FPS values using Windows OCR
-- Generates a Markdown report
+Программа предназначена для запуска бенчмарка с различными настройками графики, сохранения результатов тестирования и формирования отчёта.
 
-## Requirements
+Реализованы два сценария:
 
-- Windows 10/11
-- .NET 10 SDK
-- Steam and Black Myth: Wukong Benchmark Tool
-- Russian Windows OCR language support
+- **LOW** — тестирование с низкими настройками графики.
+- **HIGH** — тестирование с высокими настройками графики.
 
-## Commands
+## Возможности программы
 
-Build: `dotnet build`
+- Запуск Black Myth: Wukong Benchmark Tool через Steam.
+- Применение заранее подготовленных графических пресетов.
+- Автоматическое взаимодействие с интерфейсом через WinAPI.
+- Создание скриншотов результатов тестирования.
+- Распознавание показателей FPS с помощью Windows OCR.
+- Формирование отчёта с характеристиками компьютера, настройками графики и результатами.
 
-LOW test: `dotnet run -- --low`
+## Используемые технологии
 
-HIGH test: `dotnet run -- --high`
+- C# и .NET 10
+- Windows Forms
+- WinAPI
+- Windows.Media.Ocr
+- Steam
 
-Both tests: `dotnet run -- --all`
+## Требования для запуска
 
-Read screenshot: `dotnet run -- --read`
+- Windows 10 или Windows 11.
+- Установленный .NET 10 SDK.
+- Steam и Black Myth: Wukong Benchmark Tool.
+- Поддержка распознавания русского текста средствами Windows OCR.
 
-Generate report: `dotnet run -- --report`
+**Важно:** путь к установленному бенчмарку указан в исходном коде. При запуске на другом компьютере его необходимо изменить.
 
-## Test hardware
+## Инструкция по запуску
 
-- CPU: Intel Core i5-12500H
-- GPU: NVIDIA GeForce RTX 3060 Laptop GPU (6 GB)
-- RAM: 16 GB
-- OS: Windows 10
-- Resolution: 1920 x 1080
+Откройте терминал PowerShell в папке проекта.
 
-## Results
+**Сборка проекта:**
 
-| Metric | LOW | HIGH |
+`dotnet build`
+
+**Запуск с низкими настройками:**
+
+`dotnet run -- --low`
+
+**Запуск с высокими настройками:**
+
+`dotnet run -- --high`
+
+**Последовательный запуск двух тестов:**
+
+`dotnet run -- --all`
+
+Этот режим является экспериментальным и требует дополнительной проверки.
+
+**Распознавание результатов последнего скриншота:**
+
+`dotnet run -- --read`
+
+**Создание отчёта по сохранённым данным:**
+
+`dotnet run -- --report`
+
+## Характеристики тестового компьютера
+
+| Компонент | Характеристика |
+|---|---|
+| Процессор | Intel Core i5-12500H |
+| Видеокарта | NVIDIA GeForce RTX 3060 Laptop GPU |
+| Видеопамять | 6 ГБ |
+| Оперативная память | 16 ГБ |
+| Операционная система | Windows 10, 64-bit |
+| Разрешение экрана | 1920 × 1080 |
+
+## Результаты тестирования
+
+| Показатель | LOW | HIGH |
 |---|---:|---:|
-| Average FPS | 84 | 53 |
-| Maximum FPS | 121 | 74 |
-| Minimum FPS | 34 | 39 |
-| 5th percentile FPS | 38 | 44 |
+| Средний FPS | 84 | 53 |
+| Максимальный FPS | 121 | 74 |
+| Минимальный FPS | 34 | 39 |
+| 5-й перцентиль FPS | 38 | 44 |
 
-See `results/report.md` for the report and screenshots.
+На низких настройках средний FPS оказался выше, чем на высоких. При этом показатели минимального FPS и 5-го перцентиля отличаются от среднего FPS и не позволяют сделать однозначный вывод о стабильности производительности без дополнительных измерений.
 
-## Limitations
+Низкие и высокие настройки не гарантируют, что производительность ограничена соответственно процессором или видеокартой: загрузка CPU и GPU отдельно не измерялась.
 
-The benchmark installation path and hardware specifications are currently configured for the test machine. UI automation relies on fixed click coordinates and timing. The full `--all` workflow is experimental and has not yet been successfully verified end-to-end. FPS extraction may require manual verification.
+## Структура проекта
+
+- `Program.cs` — запуск бенчмарка, автоматизация интерфейса, создание скриншотов и распознавание FPS.
+- `ReportGenerator.cs` — создание отчёта по сохранённым результатам.
+- `GameUserSettings.low.ini` — пресет низких настроек графики.
+- `GameUserSettings.high.ini` — пресет высоких настроек графики.
+- `results/cpu-low.png` — скриншот LOW-теста.
+- `results/gpu-high.png` — скриншот HIGH-теста.
+- `results/report.md` — отчёт с результатами тестирования.
+- `WukongBenchmark.csproj` — файл проекта .NET.
+
+## Ограничения и возможные улучшения
+
+В текущей реализации присутствуют следующие ограничения:
+
+- Координаты автоматических нажатий фиксированы и зависят от разрешения экрана и расположения элементов интерфейса.
+- Завершение тестирования определяется по таймеру, а не по фактическому состоянию бенчмарка.
+- OCR может допускать ошибки при распознавании показателей FPS.
+- Полный автоматический запуск двух тестов подряд пока не прошёл успешную проверку.
+- В отдельном генераторе отчёта используются сохранённые результаты конкретных прогонов.
+- Характеристики тестового компьютера в отчёте заданы для используемой машины.
+
+В дальнейшем можно добавить автоматическое определение завершения теста, проверку применённых настроек, получение характеристик компьютера через системные API и формирование отчёта непосредственно из распознанных результатов.
+
+---
+
+**Проект выполнен в рамках тестового задания на стажировку VK Play.**
